@@ -1,0 +1,36 @@
+========================================
+  ERROR: Failed to resolve import "sweetalert2"
+========================================
+
+SOLUCIÓN:
+---------
+
+Cuando instalas nuevos paquetes NPM, el servidor de desarrollo 
+de Vite necesita reiniciarse para reconocer los nuevos módulos.
+
+PASOS A SEGUIR:
+
+1. DETENER el servidor de desarrollo:
+   - Presiona Ctrl+C en la terminal donde se está ejecutando
+
+2. LIMPIAR la caché (opcional pero recomendado):
+   - Ejecuta: pnpm store prune
+   - Ejecuta: rm -rf node_modules/.vite
+
+3. REINICIAR el servidor de desarrollo:
+   - Ejecuta: pnpm run dev
+   (o el comando que uses para iniciar el servidor)
+
+4. REFRESCAR el navegador:
+   - Presiona Ctrl+F5 para recargar sin caché
+
+ALTERNATIVA RÁPIDA:
+-------------------
+Si el servidor se está ejecutando en Figma Make o un ambiente 
+especial, simplemente:
+- Guarda los cambios
+- El servidor debería recargar automáticamente
+- Si no, cierra y vuelve a abrir la aplicación
+
+El paquete sweetalert2 está correctamente instalado.
+Solo necesita que el servidor reconozca el nuevo módulo.

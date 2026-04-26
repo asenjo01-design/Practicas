@@ -1,0 +1,33 @@
+IMPORTANTE: Nombres y extensiones de archivos
+==============================================
+
+Si tus imágenes tienen extensión .jpeg en lugar de .jpg:
+
+OPCIÓN 1: Renombrar los archivos (RECOMENDADO)
+----------------------------------------------
+Cambia la extensión de tus archivos de .jpeg a .jpg
+
+Ejemplo en Windows:
+- pepito.jpeg → pepito.jpg
+- yo.jpeg → yo.jpg
+
+OPCIÓN 2: Mantener .jpeg
+------------------------
+Si prefieres mantener la extensión .jpeg, necesitas cambiar
+las importaciones en el archivo App.tsx de .jpg a .jpeg
+
+Los nombres EXACTOS que necesitas son:
+
+GALERÍA:
+- pepito.jpg (o pepito.jpeg)
+- yo.jpg (o yo.jpeg)
+
+PRODUCTOS (cada producto 3 imágenes):
+- unicornio-1.jpg, unicornio-2.jpg, unicornio-3.jpg
+- oso-1.jpg, oso-2.jpg, oso-3.jpg
+- conejo-1.jpg, conejo-2.jpg, conejo-3.jpg
+- gato-1.jpg, gato-2.jpg, gato-3.jpg
+- perro-1.jpg, perro-2.jpg, perro-3.jpg
+- elefante-1.jpg, elefante-2.jpg, elefante-3.jpg
+
+¡La extensión debe coincidir con las importaciones en App.tsx!

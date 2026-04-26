@@ -1,0 +1,50 @@
+========================================
+  INSTRUCCIONES PARA AGREGAR IMÁGENES
+========================================
+
+Coloca tus imágenes en la carpeta: src/app/Assets/
+
+ESTRUCTURA DE CARPETAS:
+-----------------------
+
+src/app/Assets/
+├── galeria/
+│   ├── pepito.jpeg         (Imagen de Pepito)
+│   └── yo.jpeg             (Tu imagen)
+│
+└── productos/
+    ├── unicornio-1.jpeg    (Peluche Unicornio - imagen 1)
+    ├── unicornio-2.jpeg    (Peluche Unicornio - imagen 2)
+    ├── unicornio-3.jpeg    (Peluche Unicornio - imagen 3)
+    ├── oso-1.jpeg          (Peluche Oso - imagen 1)
+    ├── oso-2.jpeg          (Peluche Oso - imagen 2)
+    ├── oso-3.jpeg          (Peluche Oso - imagen 3)
+    ├── conejo-1.jpeg       (Peluche Conejo - imagen 1)
+    ├── conejo-2.jpeg       (Peluche Conejo - imagen 2)
+    ├── conejo-3.jpeg       (Peluche Conejo - imagen 3)
+    ├── gato-1.jpeg         (Peluche Gato - imagen 1)
+    ├── gato-2.jpeg         (Peluche Gato - imagen 2)
+    ├── gato-3.jpeg         (Peluche Gato - imagen 3)
+    ├── perro-1.jpeg        (Peluche Perro - imagen 1)
+    ├── perro-2.jpeg        (Peluche Perro - imagen 2)
+    ├── perro-3.jpeg        (Peluche Perro - imagen 3)
+    ├── elefante-1.jpeg     (Peluche Elefante - imagen 1)
+    ├── elefante-2.jpeg     (Peluche Elefante - imagen 2)
+    └── elefante-3.jpeg     (Peluche Elefante - imagen 3)
+
+FORMATOS SOPORTADOS:
+-------------------
+- .jpg / .jpeg
+- .png
+- .webp
+- .gif
+
+NOTAS IMPORTANTES:
+-----------------
+1. Los nombres de archivo DEBEN coincidir exactamente con los listados arriba
+2. Respeta las mayúsculas/minúsculas en los nombres
+3. IMPORTANTE: Usa extensión .jpeg (NO .jpg)
+4. Cada producto tiene 3 imágenes que se mostrarán en carrusel
+5. Las imágenes de galería (pepito.jpeg y yo.jpeg) se muestran en tarjetas individuales
+
+¡Una vez que coloques las imágenes, la aplicación las cargará automáticamente!
