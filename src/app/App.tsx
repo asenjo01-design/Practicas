@@ -25,14 +25,20 @@ import conejo3 from './Assets/productos/conejo-3.jpeg';
 import gato1 from './Assets/productos/gato-1.jpeg';
 import gato2 from './Assets/productos/gato-2.jpeg';
 import gato3 from './Assets/productos/gato-3.jpeg';
+import gato4 from './Assets/productos/gato-4.jpeg';
 
 import perro1 from './Assets/productos/perro-1.jpeg';
 import perro2 from './Assets/productos/perro-2.jpeg';
 import perro3 from './Assets/productos/perro-3.jpeg';
+import perro4 from './Assets/productos/perro-4.jpeg';
 
 import elefante1 from './Assets/productos/elefante-1.jpeg';
 import elefante2 from './Assets/productos/elefante-2.jpeg';
 import elefante3 from './Assets/productos/elefante-3.jpeg';
+
+import shark1 from './Assets/productos/shak-1.jpeg';
+import shark2 from './Assets/productos/shak-2.jpeg';
+import shark3 from './Assets/productos/shak-3.jpeg';
 
 interface Product {
   id: number;
@@ -83,11 +89,40 @@ export default function App() {
     },
     {
       id: 3,
-      name: 'shark alexsito',
+      name: 'shark alexsito 2.0',
       price: 3000,
       images: [conejo1, conejo2, conejo3],
       description: 'shark alexsito 2.0'
+    },
+    {
+      id: 4,
+      name: 'shark alex 3.0',
+      price: 4000,
+      images: [elefante1, elefante2, elefante3],
+      description: 'shark alexsito 3.0'
+    },
+    {
+      id: 5,
+      name: 'shark alex 4.0',
+      price: 14000,
+      images: [gato1, gato2, gato3, gato4],
+      description: 'shark alexsito 4.0'
+    },
+    {
+      id: 6,
+      name: 'shark alex 5.0',
+      price: 31000,
+      images: [perro1, perro2, perro3, perro4],
+      description: 'shark alexsito 5.0 doradas'
+    },
+    {
+      id: 7,
+      name: 'shark alexito',
+      price: 100,
+      images: [shark1, shark2, shark3],
+      description: 'shark alexsito'
     }
+
   ];
 
   const formatPrice = (price: number) => {
