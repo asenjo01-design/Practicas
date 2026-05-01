@@ -40,6 +40,19 @@ import shark1 from './Assets/productos/shak-1.jpeg';
 import shark2 from './Assets/productos/shak-2.jpeg';
 import shark3 from './Assets/productos/shak-3.jpeg';
 
+import sharkagua1 from './Assets/productos/sharkagua-1.jpeg';
+import sharkagua2 from './Assets/productos/sharkagua-2.jpeg';
+import sharkagua3 from './Assets/productos/sharkagua-3.jpeg';
+
+import sharklava1 from './Assets/productos/sharklava-1.jpeg';
+import sharklava2 from './Assets/productos/sharklava-2.jpeg';
+import sharklava3 from './Assets/productos/sharklava-3.jpeg';
+
+import sharkrayo1 from './Assets/productos/sharkrayo-1.jpeg';
+import sharkrayo2 from './Assets/productos/sharkrayo-2.jpeg';
+import sharkrayo3 from './Assets/productos/sharkrayo-3.jpeg';
+
+
 interface Product {
   id: number;
   name: string;
@@ -56,6 +69,8 @@ export default function App() {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [showCart, setShowCart] = useState(false);
   const [showCheckout, setShowCheckout] = useState(false);
+  const [showPromoPanel, setShowPromoPanel] = useState(false);
+  const [promoCode, setPromoCode] = useState('');
   const [formData, setFormData] = useState({
     nombre: '',
     email: '',
@@ -111,7 +126,7 @@ export default function App() {
     {
       id: 6,
       name: 'shark alex 5.0',
-      price: 31000,
+      price: 16000,
       images: [perro1, perro2, perro3, perro4],
       description: 'shark alexsito 5.0 doradas'
     },
@@ -120,6 +135,27 @@ export default function App() {
       name: 'shark alexito',
       price: 100,
       images: [shark1, shark2, shark3],
+      description: 'shark alexsito'
+    },
+    {
+      id: 8,
+      name: 'shark alex agua ',
+      price: 6000,
+      images: [sharkagua1, sharkagua2, sharkagua3],
+      description: 'shark alexsito'
+    },
+    {
+      id: 9,
+      name: 'shark alex lava',
+      price: 11000,
+      images: [sharklava1, sharklava2, sharklava3],
+      description: 'shark alexsito'
+    },
+    {
+      id: 10,
+      name: 'shark alex tormenta',
+      price: 7000,
+      images: [sharkrayo1, sharkrayo2, sharkrayo3],
       description: 'shark alexsito'
     }
 
@@ -223,6 +259,41 @@ export default function App() {
     });
   };
 
+  const handlePromoCodeSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const upperCode = promoCode.trim().toUpperCase();
+
+    if (upperCode === 'FELIZCUMPLE' || upperCode === 'EXTRA') {
+      Swal.fire({
+        icon: 'success',
+        title: '¡Felicitaciones!',
+        html: `
+          <div style="text-align: center;">
+            <p style="font-size: 1.2em; margin-bottom: 1em;">🎉 ¡Has ganado un premio! 🎉</p>
+            <p style="color: #9333ea; font-weight: bold; font-size: 1.5em; margin: 1em 0;">Código: ${upperCode}</p>
+            <p style="color: #666;">Te contactaremos pronto para hacerte entrega de tu premio.</p>
+          </div>
+        `,
+        confirmButtonColor: '#9333ea',
+        confirmButtonText: '¡Genial!',
+        showClass: {
+          popup: 'animate__animated animate__bounceIn'
+        }
+      }).then(() => {
+        setPromoCode('');
+        setShowPromoPanel(false);
+      });
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Código inválido',
+        text: 'El código ingresado no es válido. Inténtalo nuevamente.',
+        confirmButtonColor: '#9333ea'
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
       {/* Header */}
@@ -231,19 +302,34 @@ export default function App() {
           <h1 className="text-3xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">
             Pepito Bonito
           </h1>
-          <button
-            onClick={() => setShowCart(true)}
-            className="relative bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition flex items-center gap-2"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-            </svg>
-            {getTotalItems() > 0 && (
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold">
-                {getTotalItems()}
-              </span>
-            )}
-          </button>
+          <div className="flex gap-3">
+            {/* Botón de Premios */}
+            <button
+              onClick={() => setShowPromoPanel(true)}
+              className="relative bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition flex items-center gap-2"
+              title="Códigos de Premio"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
+              </svg>
+              <span className="hidden sm:inline">Premios</span>
+            </button>
+
+            {/* Botón del Carrito */}
+            <button
+              onClick={() => setShowCart(true)}
+              className="relative bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition flex items-center gap-2"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+              {getTotalItems() > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold">
+                  {getTotalItems()}
+                </span>
+              )}
+            </button>
+          </div>
         </div>
       </header>
 
@@ -477,6 +563,76 @@ export default function App() {
                 </button>
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* Promo Code Panel */}
+      {showPromoPanel && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden flex flex-col">
+            {/* Panel Header */}
+            <div className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white p-6 flex justify-between items-center">
+              <div className="flex items-center gap-3">
+                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
+                </svg>
+                <h2 className="text-2xl font-bold">Códigos de Premio</h2>
+              </div>
+              <button
+                onClick={() => setShowPromoPanel(false)}
+                className="hover:bg-white/20 rounded-full p-2 transition"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Panel Content */}
+            <div className="p-6">
+              <div className="text-center mb-6">
+                <div className="w-20 h-20 bg-gradient-to-br from-yellow-400 to-orange-400 rounded-full mx-auto mb-4 flex items-center justify-center">
+                  <span className="text-4xl">🎁</span>
+                </div>
+                <h3 className="text-xl font-bold text-gray-800 mb-2">
+                  ¡Ingresa tu código de premio!
+                </h3>
+                <p className="text-gray-600 text-sm">
+                  Si tienes un código promocional, ingrésalo aquí para ganar un premio especial
+                </p>
+              </div>
+
+              <form onSubmit={handlePromoCodeSubmit} className="space-y-4">
+                <div>
+                  <label htmlFor="promoCode" className="block text-sm font-medium text-gray-700 mb-2">
+                    Código Promocional
+                  </label>
+                  <input
+                    type="text"
+                    id="promoCode"
+                    value={promoCode}
+                    onChange={(e) => setPromoCode(e.target.value)}
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent outline-none transition text-center text-lg font-bold uppercase"
+                    placeholder="Ej: FELIZCUMPLE"
+                    required
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 text-white py-3 rounded-lg font-bold text-lg hover:shadow-lg transform hover:scale-105 transition"
+                >
+                  Validar Código
+                </button>
+              </form>
+
+              <div className="mt-6 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+                <p className="text-xs text-gray-600 text-center">
+                  <strong>💡 Pista:</strong> Los códigos válidos son palabras especiales relacionadas con celebraciones
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       )}
