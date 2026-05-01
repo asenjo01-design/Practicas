@@ -264,7 +264,7 @@ export default function App() {
 
     const upperCode = promoCode.trim().toUpperCase();
 
-    if (upperCode === 'FELIZCUMPLE' || upperCode === 'EXTRA') {
+    if (upperCode === 'FELIZCUMPLE' || upperCode === 'EXTRA' || upperCode === 'SHARKTODO') {
       Swal.fire({
         icon: 'success',
         title: '¡Felicitaciones!',
