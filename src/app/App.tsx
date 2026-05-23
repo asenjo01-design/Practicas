@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import '../styles/carousel.css';
 import { ImageWithFallback } from './components/figma/ImageWithFallback';
+import StickerAlbum from './components/StickerAlbum';
 
 // Importar imágenes de galería
 import pepitoImg from './Assets/galeria/pepito.jpeg';
@@ -70,6 +71,7 @@ export default function App() {
   const [showCart, setShowCart] = useState(false);
   const [showCheckout, setShowCheckout] = useState(false);
   const [showPromoPanel, setShowPromoPanel] = useState(false);
+  const [showAlbum, setShowAlbum] = useState(false);
   const [promoCode, setPromoCode] = useState('');
   const [formData, setFormData] = useState({
     nombre: '',
@@ -294,6 +296,24 @@ export default function App() {
     }
   };
 
+  // Si está viendo el álbum, mostrar solo ese componente
+  if (showAlbum) {
+    return (
+      <div className="relative">
+        <button
+          onClick={() => setShowAlbum(false)}
+          className="fixed top-4 left-4 z-50 bg-white text-gray-800 px-4 py-2 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition flex items-center gap-2"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Volver
+        </button>
+        <StickerAlbum />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
       {/* Header */}
@@ -303,6 +323,18 @@ export default function App() {
             Pepito Bonito
           </h1>
           <div className="flex gap-3">
+            {/* Botón del Álbum Mundial */}
+            <button
+              onClick={() => setShowAlbum(true)}
+              className="relative bg-gradient-to-r from-green-600 to-blue-600 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition flex items-center gap-2"
+              title="Álbum Mundial 2026"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+              </svg>
+              <span className="hidden sm:inline">Álbum ⚽</span>
+            </button>
+
             {/* Botón de Premios */}
             <button
               onClick={() => setShowPromoPanel(true)}
@@ -377,10 +409,10 @@ export default function App() {
         <section className="mb-16">
           <div className="text-center mb-10">
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-3">
-              Tienda de Shark Alex
+              Tienda de Peluches
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Descubre nuestra genial colección de shark Alex
+              Descubre nuestra colección de adorables peluches
             </p>
           </div>
 
@@ -476,6 +508,76 @@ export default function App() {
         </section>
       </main>
 
+      {/* Promo Code Panel */}
+      {showPromoPanel && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden flex flex-col">
+            {/* Panel Header */}
+            <div className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white p-6 flex justify-between items-center">
+              <div className="flex items-center gap-3">
+                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
+                </svg>
+                <h2 className="text-2xl font-bold">Códigos de Premio</h2>
+              </div>
+              <button
+                onClick={() => setShowPromoPanel(false)}
+                className="hover:bg-white/20 rounded-full p-2 transition"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Panel Content */}
+            <div className="p-6">
+              <div className="text-center mb-6">
+                <div className="w-20 h-20 bg-gradient-to-br from-yellow-400 to-orange-400 rounded-full mx-auto mb-4 flex items-center justify-center">
+                  <span className="text-4xl">🎁</span>
+                </div>
+                <h3 className="text-xl font-bold text-gray-800 mb-2">
+                  ¡Ingresa tu código de premio!
+                </h3>
+                <p className="text-gray-600 text-sm">
+                  Si tienes un código promocional, ingrésalo aquí para ganar un premio especial
+                </p>
+              </div>
+
+              <form onSubmit={handlePromoCodeSubmit} className="space-y-4">
+                <div>
+                  <label htmlFor="promoCode" className="block text-sm font-medium text-gray-700 mb-2">
+                    Código Promocional
+                  </label>
+                  <input
+                    type="text"
+                    id="promoCode"
+                    value={promoCode}
+                    onChange={(e) => setPromoCode(e.target.value)}
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent outline-none transition text-center text-lg font-bold uppercase"
+                    placeholder="Ej: FELIZCUMPLE"
+                    required
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 text-white py-3 rounded-lg font-bold text-lg hover:shadow-lg transform hover:scale-105 transition"
+                >
+                  Validar Código
+                </button>
+              </form>
+
+              <div className="mt-6 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+                <p className="text-xs text-gray-600 text-center">
+                  <strong>💡 Pista:</strong> Los códigos válidos son palabras especiales relacionadas con celebraciones
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Shopping Cart Modal */}
       {showCart && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
@@ -563,76 +665,6 @@ export default function App() {
                 </button>
               </div>
             )}
-          </div>
-        </div>
-      )}
-
-      {/* Promo Code Panel */}
-      {showPromoPanel && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden flex flex-col">
-            {/* Panel Header */}
-            <div className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white p-6 flex justify-between items-center">
-              <div className="flex items-center gap-3">
-                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
-                </svg>
-                <h2 className="text-2xl font-bold">Códigos de Premio</h2>
-              </div>
-              <button
-                onClick={() => setShowPromoPanel(false)}
-                className="hover:bg-white/20 rounded-full p-2 transition"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-
-            {/* Panel Content */}
-            <div className="p-6">
-              <div className="text-center mb-6">
-                <div className="w-20 h-20 bg-gradient-to-br from-yellow-400 to-orange-400 rounded-full mx-auto mb-4 flex items-center justify-center">
-                  <span className="text-4xl">🎁</span>
-                </div>
-                <h3 className="text-xl font-bold text-gray-800 mb-2">
-                  ¡Ingresa tu código de premio!
-                </h3>
-                <p className="text-gray-600 text-sm">
-                  Si tienes un código promocional, ingrésalo aquí para ganar un premio especial
-                </p>
-              </div>
-
-              <form onSubmit={handlePromoCodeSubmit} className="space-y-4">
-                <div>
-                  <label htmlFor="promoCode" className="block text-sm font-medium text-gray-700 mb-2">
-                    Código Promocional
-                  </label>
-                  <input
-                    type="text"
-                    id="promoCode"
-                    value={promoCode}
-                    onChange={(e) => setPromoCode(e.target.value)}
-                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent outline-none transition text-center text-lg font-bold uppercase"
-                    placeholder="Ej: FELIZCUMPLE"
-                    required
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 text-white py-3 rounded-lg font-bold text-lg hover:shadow-lg transform hover:scale-105 transition"
-                >
-                  Validar Código
-                </button>
-              </form>
-
-              <div className="mt-6 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
-                <p className="text-xs text-gray-600 text-center">
-                  <strong>💡 Pista:</strong> Los códigos válidos son palabras especiales relacionadas con celebraciones
-                </p>
-              </div>
-            </div>
           </div>
         </div>
       )}
