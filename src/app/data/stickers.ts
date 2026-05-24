@@ -76,6 +76,16 @@ const teams: Team[] = [
   { code: 'PAN', country: 'Panama', group: 'L' },
 ];
 
+const INTRO_COUNT = 1;
+const FWC_COUNT = 19;
+const COCA_COLA_COUNT = 14;
+
+const FWC_START_ID = INTRO_COUNT + 1; // 2
+const COCA_COLA_START_ID = FWC_START_ID + FWC_COUNT; // 21
+const TEAMS_START_ID = COCA_COLA_START_ID + COCA_COLA_COUNT; // 35
+
+
+
 export const stickersData: Sticker[] = [
   {
     id: 1,
@@ -87,8 +97,8 @@ export const stickersData: Sticker[] = [
     description: 'Especial'
   },
 
-  ...Array.from({ length: 19 }, (_, i) => ({
-    id: i + 2,
+  ...Array.from({ length: FWC_COUNT }, (_, i) => ({
+    id: FWC_START_ID + i,
     number: `FWC${i + 1}`,
     section: 'Copa del Mundo',
     country: 'Mundial',
@@ -97,19 +107,19 @@ export const stickersData: Sticker[] = [
     description: `FWC${i + 1}`
   })),
 
-  ...Array.from({ length: 14 }, (_, i) => ({
-    id: i + 2,
+  ...Array.from({ length: COCA_COLA_COUNT }, (_, i) => ({
+    id: COCA_COLA_START_ID + i,
     number: `CC${i + 1}`,
     section: 'Coca Cola',
     country: 'Coca Cola',
     group: '',
     type: 'COCA_COLA' as const,
-    description: `FWC${i + 1}`
+    description: `CC${i + 1}`
   })),
 
   ...teams.flatMap((team, teamIndex) =>
     Array.from({ length: 20 }, (_, i) => ({
-      id: 19 + teamIndex * 20 + i,
+      id: TEAMS_START_ID + teamIndex * 20 + i,
       number: `${team.code}${i + 1}`,
       section: `Grupo ${team.group}`,
       country: team.country,
