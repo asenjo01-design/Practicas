@@ -4,7 +4,7 @@ export interface Sticker {
   section: string;
   country: string;
   group: string;
-  type: 'especiales_1' | 'escudo' | 'equipo' | 'jugador' | 'estadio' | 'especiales_2';
+  type: 'especiales_1' | 'escudo' | 'equipo' | 'jugador' | 'estadio' | 'COCA_COLA';
   description: string;
 }
 
@@ -87,13 +87,23 @@ export const stickersData: Sticker[] = [
     description: 'Especial'
   },
 
-  ...Array.from({ length: 17 }, (_, i) => ({
+  ...Array.from({ length: 19 }, (_, i) => ({
     id: i + 2,
     number: `FWC${i + 1}`,
     section: 'Copa del Mundo',
     country: 'Mundial',
     group: '',
     type: 'especiales_1' as const,
+    description: `FWC${i + 1}`
+  })),
+
+  ...Array.from({ length: 14 }, (_, i) => ({
+    id: i + 2,
+    number: `CC${i + 1}`,
+    section: 'Coca Cola',
+    country: 'Coca Cola',
+    group: '',
+    type: 'COCA_COLA' as const,
     description: `FWC${i + 1}`
   })),
 
