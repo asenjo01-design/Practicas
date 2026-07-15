@@ -15,6 +15,7 @@ export default function StickerAlbum() {
   const [selectedCountry, setSelectedCountry] = useState('');
   const [selectedGroup, setSelectedGroup] = useState('');
   const [searchNumber, setSearchNumber] = useState('');
+  const [showMissingOnly, setShowMissingOnly] = useState(false);
 
   // Cargar progreso del usuario desde Firebase
   useEffect(() => {
@@ -192,6 +193,52 @@ export default function StickerAlbum() {
     setSearchNumber('');
   };
 
+  const formatStickerList = (stickers: Sticker[]) => {
+    if (stickers.length === 0) {
+      return 'No tengo estampillas faltantes con estos filtros.';
+    }
+
+    const grouped: Record<string, Sticker[]> = {};
+    stickers.forEach(sticker => {
+      const key = sticker.country || sticker.section;
+      if (!grouped[key]) grouped[key] = [];
+      grouped[key].push(sticker);
+    });
+
+    return Object.entries(grouped)
+      .map(([country, stickers]) => {
+        const stickerNumbers = stickers
+          .sort((a, b) => a.id - b.id)
+          .map(sticker => sticker.number)
+          .join(', ');
+
+        return `${country}: ${stickerNumbers}`;
+      })
+      .join('\n');
+  };
+
+  const copyMissingList = async () => {
+    const listText = `Estampillas faltantes de ${userName}:` + '\n' + formatStickerList(visibleStickers);
+
+    try {
+      await navigator.clipboard.writeText(listText);
+      Swal.fire({
+        title: 'Lista copiada',
+        text: 'Ya puedes compartir tus estampillas faltantes',
+        icon: 'success',
+        timer: 1600,
+        showConfirmButton: false
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'No se pudo copiar',
+        text: 'Selecciona el listado y copialo manualmente',
+        icon: 'warning',
+        confirmButtonColor: '#9333ea'
+      });
+    }
+  };
+
   const getProgress = () => {
     const total = stickersData.length;
     const collected = collectedStickers.size;
@@ -260,6 +307,10 @@ export default function StickerAlbum() {
   }
 
   const progress = getProgress();
+  const visibleStickers = showMissingOnly
+    ? filteredStickers.filter(sticker => !collectedStickers.has(sticker.id))
+    : filteredStickers;
+  const missingCount = stickersData.length - collectedStickers.size;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-purple-50">
@@ -300,14 +351,33 @@ export default function StickerAlbum() {
       <main className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
         {/* Filtros */}
         <div className="bg-white rounded-xl shadow-md p-6 mb-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-bold text-gray-800">Filtros</h2>
-            <button
-              onClick={clearFilters}
-              className="text-sm text-blue-600 hover:text-blue-700 font-medium"
-            >
-              Limpiar filtros
-            </button>
+          <div className="flex flex-col gap-3 mb-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h2 className="text-xl font-bold text-gray-800">Filtros</h2>
+              <p className="text-sm text-gray-500">
+                {showMissingOnly
+                  ? `Mostrando ${visibleStickers.length} de ${missingCount} estampillas faltantes`
+                  : `Mostrando ${visibleStickers.length} estampillas`}
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <button
+                onClick={() => setShowMissingOnly(!showMissingOnly)}
+                className={`px-4 py-2 rounded-lg text-sm font-semibold transition ${
+                  showMissingOnly
+                    ? 'bg-orange-500 text-white hover:bg-orange-600'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                {showMissingOnly ? 'Ver todas' : `Ver faltantes (${missingCount})`}
+              </button>
+              <button
+                onClick={clearFilters}
+                className="px-4 py-2 rounded-lg text-sm text-blue-600 hover:bg-blue-50 font-medium"
+              >
+                Limpiar filtros
+              </button>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -378,12 +448,36 @@ export default function StickerAlbum() {
           </div>
         </div>
 
+        {showMissingOnly && (
+          <div className="bg-white rounded-xl shadow-md p-6 mb-6">
+            <div className="flex flex-col gap-3 mb-4 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <h2 className="text-xl font-bold text-gray-800">Listado para compartir</h2>
+                <p className="text-sm text-gray-500">
+                  Copia tus estampillas faltantes segun los filtros activos.
+                </p>
+              </div>
+              <button
+                onClick={copyMissingList}
+                className="px-4 py-2 rounded-lg text-sm font-semibold bg-green-600 text-white hover:bg-green-700 transition"
+              >
+                Copiar listado
+              </button>
+            </div>
+            <textarea
+              readOnly
+              value={`Estampillas faltantes de ${userName}:\n${formatStickerList(visibleStickers)}`}
+              className="w-full min-h-48 px-3 py-3 border border-gray-300 rounded-lg bg-gray-50 text-sm text-gray-800 outline-none focus:ring-2 focus:ring-green-500"
+            />
+          </div>
+        )}
+
         {/* Matriz de estampillas por país */}
         <div className="space-y-4">
           {(() => {
             // Agrupar estampillas por país
             const grouped: Record<string, Sticker[]> = {};
-            filteredStickers.forEach(sticker => {
+            visibleStickers.forEach(sticker => {
               const key = sticker.country || sticker.section;
               if (!grouped[key]) grouped[key] = [];
               grouped[key].push(sticker);
@@ -421,9 +515,9 @@ export default function StickerAlbum() {
           })()}
         </div>
 
-        {filteredStickers.length === 0 && (
+        {visibleStickers.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-gray-500">No se encontraron estampillas</p>
+            <p className="text-gray-500">{showMissingOnly ? 'No hay estampillas faltantes con estos filtros' : 'No se encontraron estampillas'}</p>
           </div>
         )}
       </main>
